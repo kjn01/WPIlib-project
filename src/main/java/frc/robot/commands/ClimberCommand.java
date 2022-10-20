@@ -27,6 +27,7 @@ public class ClimberCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
     switch (climberState) {
       case UP:
         climber.up();
@@ -34,10 +35,11 @@ public class ClimberCommand extends CommandBase {
       case DOWN:
         climber.down();
         break;
-      default:
+      case STOP:
         climber.stop();
     }
   }
+
 
   // Called once the command ends or is interrupted.
   @Override
@@ -53,6 +55,7 @@ public class ClimberCommand extends CommandBase {
 
   public enum Direction {
     UP,
-    DOWN
+    DOWN,
+    STOP
   }
 }

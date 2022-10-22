@@ -11,9 +11,12 @@ import frc.robot.subsystems.Intake;
 public class IntakeCommand extends CommandBase {
   /** Creates a new IntakeCommand. */
   private Intake intake;
-  public IntakeCommand(Intake intake) {
+  private IntakeState intakeState;
+
+  public IntakeCommand(Intake intake, IntakeState intakeState) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.intake = intake;
+    this.intakeState = intakeState;
   }
 
   // Called when the command is initially scheduled.
@@ -26,7 +29,24 @@ public class IntakeCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
+    switch (intakeState) {
+      case MOTOR_IN:
+        intake.motorForward();
+      case MOTOR_OUT:
+        intake.motorBackward();
+      case MOTOR_STOP:
+        intake.stopMotor();
+        intake.stopPivot();
+      case PIVOT_IN:
+        intake.pivotForward();
+      case PIVOT_OUT:
+        intake.pivotBackward();
+      case PIVOT_STOP:
+        intake.stopPivot();
+      default:
+        intake.stopMotor();
+        intake.stopPivot();
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -40,5 +60,14 @@ public class IntakeCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     return false;
+  }
+
+  public enum IntakeState {
+    MOTOR_IN,
+    MOTOR_OUT,
+    MOTOR_STOP,
+    PIVOT_IN,
+    PIVOT_OUT,
+    PIVOT_STOP
   }
 }

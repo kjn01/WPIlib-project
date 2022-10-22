@@ -8,12 +8,15 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.Climber;
 import frc.robot.commands.ClimberCommand;
 import frc.robot.commands.ClimberCommand.Direction;
+import frc.robot.commands.IntakeCommand.IntakeState;
+import frc.robot.subsystems.Intake;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -24,6 +27,7 @@ import frc.robot.commands.ClimberCommand.Direction;
 public class RobotContainer {
 
   private final Climber climber = new Climber();
+  private final Intake intake = new Intake();
 
   private final Joystick joystick = new Joystick(1);
 
@@ -50,9 +54,12 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    xButton.whileHeld(new ClimberCommand(climber, Direction.UP));
-    yButton.whileHeld(new ClimberCommand(climber, Direction.DOWN));
-    aButton.whenPressed(new ClimberCommand(climber, Direction.STOP));
+    // xButton.whileHeld(new ClimberCommand(climber, Direction.UP));
+    // yButton.whileHeld(new ClimberCommand(climber, Direction.DOWN));
+    // aButton.whenPressed(new ClimberCommand(climber, Direction.STOP));
+    bButton.whileHeld(new IntakeCommand(intake, IntakeState.MOTOR_IN));
+    aButton.whileHeld(new IntakeCommand(intake, IntakeState.MOTOR_OUT));
+    xButton.whileHeld(new IntakeCommand(intake, IntakeState.MOTOR_STOP));
   }
 
   /**

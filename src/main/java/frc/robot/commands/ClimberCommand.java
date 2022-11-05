@@ -11,9 +11,9 @@ import frc.robot.subsystems.Climber;
 public class ClimberCommand extends CommandBase {
 
   private Climber climber;
-  private Direction climberState;
+  private ClimberState climberState;
 
-  public ClimberCommand(Climber climber, Direction climberState) {
+  public ClimberCommand(Climber climber, ClimberState climberState) {
     this.climber = climber;
     this.climberState = climberState;
   }
@@ -53,7 +53,7 @@ public class ClimberCommand extends CommandBase {
     return false;
   }
 
-  public enum Direction {
+  public enum ClimberState {
     UP,
     DOWN,
     STOP

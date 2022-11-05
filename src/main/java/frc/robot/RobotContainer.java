@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.Climber;
 import frc.robot.commands.ClimberCommand;
-import frc.robot.commands.ClimberCommand.Direction;
+import frc.robot.commands.ClimberCommand.ClimberState;
 import frc.robot.commands.IntakeCommand.IntakeState;
 import frc.robot.subsystems.Intake;
 
@@ -35,6 +35,8 @@ public class RobotContainer {
   private final JoystickButton yButton = new JoystickButton(joystick, 2);
   private final JoystickButton aButton = new JoystickButton(joystick, 3);
   private final JoystickButton bButton = new JoystickButton(joystick, 4);
+  private final JoystickButton lBumper = new JoystickButton(joystick, 5);
+  private final JoystickButton rBumper = new JoystickButton(joystick, 6);
 
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
@@ -54,12 +56,18 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // xButton.whileHeld(new ClimberCommand(climber, Direction.UP));
-    // yButton.whileHeld(new ClimberCommand(climber, Direction.DOWN));
-    // aButton.whenPressed(new ClimberCommand(climber, Direction.STOP));
-    bButton.whileHeld(new IntakeCommand(intake, IntakeState.MOTOR_IN));
-    aButton.whileHeld(new IntakeCommand(intake, IntakeState.MOTOR_OUT));
-    xButton.whileHeld(new IntakeCommand(intake, IntakeState.MOTOR_STOP));
+    lBumper.whileHeld(new IntakeCommand(intake, IntakeState.MOTOR_IN));
+    lBumper.whenReleased(new IntakeCommand(intake, IntakeState.MOTOR_STOP));
+    yButton.whenHeld(new IntakeCommand(intake, IntakeState.MOTOR_OUT));
+    yButton.whenReleased(new IntakeCommand(intake, IntakeState.MOTOR_STOP));
+    bButton.whenHeld(new IntakeCommand(intake, IntakeState.PIVOT_OUT));
+    bButton.whenReleased(new IntakeCommand(intake, IntakeState.PIVOT_STOP));
+    rBumper.whileHeld(new IntakeCommand(intake, IntakeState.PIVOT_IN));
+    rBumper.whenReleased(new IntakeCommand(intake, IntakeState.PIVOT_STOP));
+    aButton.whileHeld(new ClimberCommand(climber, ClimberState.UP));
+    aButton.whenReleased(new ClimberCommand(climber, ClimberState.STOP));
+    xButton.whileHeld(new ClimberCommand(climber, ClimberState.DOWN));
+    xButton.whenReleased(new ClimberCommand(climber, ClimberState.STOP));
   }
 
   /**

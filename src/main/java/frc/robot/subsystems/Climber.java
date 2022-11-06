@@ -11,11 +11,10 @@ public class Climber extends SubsystemBase {
     private RelativeEncoder climberEncoder;
 
     private final int maxHeight = 182;
-    private final int minHeight = 5;
+    private final int minHeight = 0;
 
     public Climber() {
-
-        climberMotor = new CANSparkMax(0, MotorType.kBrushless);
+        climberMotor = new CANSparkMax(19, MotorType.kBrushless);
         climberEncoder = climberMotor.getEncoder();
     }
 

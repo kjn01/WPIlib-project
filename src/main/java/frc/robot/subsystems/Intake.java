@@ -8,21 +8,21 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Intake extends SubsystemBase {
     private CANSparkMax intakePivot;
     private CANSparkMax intakeMotor;
-    private RelativeEncoder pivotEncoder;
+    private RelativeEncoder motorEncoder;
     private final int minPivot = 0;
     private final int maxPivot = 45;
     public Intake() {
-        intakePivot = new CANSparkMax(0, MotorType.kBrushless);
-        intakeMotor = new CANSparkMax(0, MotorType.kBrushless);
-        pivotEncoder = intakePivot.getEncoder();
+        intakePivot = new CANSparkMax(14, MotorType.kBrushless);
+        intakeMotor = new CANSparkMax(12, MotorType.kBrushless);
+        motorEncoder = intakeMotor.getEncoder();
     }
 
     public void motorForward() {
-        intakeMotor.set(1);
+        intakeMotor.set(0.5);
     }
 
     public void motorBackward() {
-        intakeMotor.set(-1);
+        intakeMotor.set(-0.5);
     }
 
     public void stopMotor() {
@@ -52,6 +52,6 @@ public class Intake extends SubsystemBase {
     }
 
     public double getPos() {
-        return pivotEncoder.getPosition();
+        return motorEncoder.getPosition();
     }
 }

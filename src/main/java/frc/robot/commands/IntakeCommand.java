@@ -4,7 +4,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
@@ -17,13 +16,12 @@ public class IntakeCommand extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     this.intake = intake;
     this.intakeState = intakeState;
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intake.stopMotor();
-    intake.stopPivot();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -32,20 +30,22 @@ public class IntakeCommand extends CommandBase {
     switch (intakeState) {
       case MOTOR_IN:
         intake.motorForward();
+        break;
       case MOTOR_OUT:
         intake.motorBackward();
+        break;
       case MOTOR_STOP:
         intake.stopMotor();
-        intake.stopPivot();
+        break;
       case PIVOT_IN:
         intake.pivotForward();
+        break;
       case PIVOT_OUT:
         intake.pivotBackward();
+        break;
       case PIVOT_STOP:
         intake.stopPivot();
-      default:
-        intake.stopMotor();
-        intake.stopPivot();
+        break;
     }
   }
 

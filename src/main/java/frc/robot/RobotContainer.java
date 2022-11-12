@@ -8,8 +8,10 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.FlywheelCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Flywheel;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -18,6 +20,7 @@ import frc.robot.commands.ClimberCommand;
 import frc.robot.commands.ClimberCommand.ClimberState;
 import frc.robot.commands.IntakeCommand.IntakeState;
 import frc.robot.subsystems.Intake;
+import frc.robot.commands.FlywheelCommand.FlywheelState;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -29,6 +32,7 @@ public class RobotContainer {
 
   private final Climber climber = new Climber();
   private final Intake intake = new Intake();
+  private final Flywheel flywheel = new Flywheel();
   private final Joystick joystick = new Joystick(0);
 
   private final JoystickButton xButton = new JoystickButton(joystick, 3);
@@ -56,12 +60,16 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+
     lBumper.whileHeld(new IntakeCommand(intake, IntakeState.MOTOR_IN));
     yButton.whileHeld(new IntakeCommand(intake, IntakeState.MOTOR_OUT));
-    bButton.whenHeld(new IntakeCommand(intake, IntakeState.PIVOT_OUT));
+    bButton.whileHeld(new IntakeCommand(intake, IntakeState.PIVOT_OUT));
     rBumper.whileHeld(new IntakeCommand(intake, IntakeState.PIVOT_IN));
     aButton.whileHeld(new ClimberCommand(climber, ClimberState.UP));
-    xButton.whileHeld(new ClimberCommand(climber, ClimberState.DOWN));
+    aButton.whenReleased(new ClimberCommand(climber, ClimberState.DOWN));
+    xButton.whileHeld(new FlywheelCommand(flywheel, FlywheelState.RUN));
+    xButton.whenReleased(new FlywheelCommand(flywheel, FlywheelState.STOP));
+
   }
 
   /**

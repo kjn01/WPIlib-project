@@ -16,6 +16,7 @@ public class FlywheelCommand extends CommandBase {
   public FlywheelCommand(Flywheel flywheel, FlywheelState flywheelState) {
     this.flywheel = flywheel;
     this.flywheelState = flywheelState;
+    addRequirements(flywheel);
   }
 
   // Called when the command is initially scheduled.

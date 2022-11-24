@@ -4,8 +4,12 @@
 
 package frc.robot.subsystems;
 
+import javax.swing.plaf.TreeUI;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.BangBangController;
@@ -16,22 +20,37 @@ public class Flywheel extends SubsystemBase {
   /** Creates a new Flywheel. */
 
   private CANSparkMax flywheelMotor;
+  private CANSparkMax flywheelSlave;
   private RelativeEncoder flywheelEncoder;
+
+  private SparkMaxPIDController flywheelController;
+
   private PIDController controller;
   private final double kFF = 0.0075;
-  private final double kP = 0.1;
-  private final double setpoint = 300;
+  private final double kP = 0.0002;
+  private final double setpoint = 1500;
 
   public Flywheel() {
       flywheelMotor = new CANSparkMax(9, MotorType.kBrushless);
+      flywheelSlave = new CANSparkMax(10, MotorType.kBrushless);
+      flywheelSlave.follow(flywheelMotor, true);
+
+      flywheelController = flywheelMotor.getPIDController();
+      flywheelController.setP(kP);
+      flywheelController.setFF(kFF);
+      
       flywheelEncoder = flywheelMotor.getEncoder();
       controller = new PIDController(kP, 0.0, 0.0);
 
   }
+public void forward() {
+  flywheelController.setReference(-setpoint, ControlType.kVelocity);
+  
+}
 
-  public void forward() {
-    flywheelMotor.setVoltage(controller.calculate(flywheelEncoder.getVelocity(), setpoint) + kFF);
-  }
+  // public void forward() {
+  //   flywheelMotor.setVoltage(controller.calculate(flywheelEncoder.getVelocity(), setpoint) + kFF);
+  // }
 
   public void stop() {
     flywheelMotor.setVoltage(0);

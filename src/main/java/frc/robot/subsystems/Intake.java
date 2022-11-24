@@ -13,7 +13,7 @@ public class Intake extends SubsystemBase {
     private final int maxPivot = 45;
     public Intake() {
         intakePivot = new CANSparkMax(14, MotorType.kBrushless);
-        intakeMotor = new CANSparkMax(12, MotorType.kBrushless);
+        intakeMotor = new CANSparkMax(15, MotorType.kBrushless);
         motorEncoder = intakeMotor.getEncoder();
     }
 
